@@ -1,4 +1,3 @@
-
 // Load required packages
 var express = require('express');
 var mongoose = require('mongoose');
@@ -11,7 +10,7 @@ var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
 // Connect to the mapit database
-mongoose.connect('mongodb://felix:mapitadmin@ds039411.mongolab.com:39411/heroku_app33632584');
+mongoose.connect('mongodb://localhost:27017/mapit');
 
 // Create our Express application
 var app = express();
@@ -31,6 +30,9 @@ app.use(passport.initialize());
 
 // Create our Express router
 var router = express.Router();
+
+//change static folder
+app.use(express.static(__dirname + '/frontend/'));
 
 // Create endpoint handlers for /locations
 router.route('/locations')

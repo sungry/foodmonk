@@ -1,4 +1,3 @@
-
 // We load the Location model
 var Location = require('../models/location');
 var User = require('../models/user');
@@ -8,10 +7,8 @@ var mongoose = require('../node_modules/mongoose');
 // **********************************
 // Create endpoint /api/locations for POSTS
 exports.postLocations = function(req, res) {
-
     // Create a new instance of the Location model
     var location = new Location();
-
     // Set the location properties that came from the POST data
     console.log(req.body.message);
     console.log(req.body.latitude);
@@ -19,6 +16,7 @@ exports.postLocations = function(req, res) {
 
     location.latitude = req.body.latitude;
     location.longitude = req.body.longitude;
+
     location.message = req.body.message;
 
     //passport will automatically set the user in req.user
