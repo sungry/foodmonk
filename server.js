@@ -4,6 +4,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var logger     = require('morgan');
 
 // //we import the controllers
 var locationController = require('./controllers/location');
@@ -13,8 +14,15 @@ var authController = require('./controllers/auth');
 // Connect to the mapit database
 mongoose.connect('mongodb://felix:mapitadmin@ds039411.mongolab.com:39411/heroku_app33632584');
 
+mongoose.connection.on('open', function() {
+  console.log('Connected to MongoDB');
+});
+
 // Create our Express application
 var app = express();
+
+// Log requests to terminal
+app.use(logger('dev'));
 
 // Use the body-parser package in our application
 // The "extended" syntax allows for rich objects and arrays to be encoded into
@@ -23,8 +31,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(bodyParser.json({
-}));
+app.use(bodyParser.json({}));
 
 // Use the passport package in our application
 app.use(passport.initialize());
@@ -55,5 +62,14 @@ router.route('/authenticate')
 // Register all our routes with /api
 app.use('/api', router);
 
+app.get('/', function(req, res) {
+  res.send("Hello World");
+});
+
+
 // Start the server
-app.listen(process.env.PORT || 3000);
+var port = process.env.PORT || 3000;
+
+app.listen(port, function() {
+  console.log('Example app listening at http://localhost:' + port);
+});
